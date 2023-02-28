@@ -19,33 +19,44 @@ $rules = array_keys(Configs::authManager()->getRules());
 $rules = array_combine($rules, $rules);
 unset($rules[RouteRule::RULE_NAME]);
 ?>
-<div class="role-index">
-    <h1><?= Html::encode($this->title) ?></h1>
-    <p>
-        <?= Html::a(Yii::t('rbac-admin', 'Create ' . $labels['Item']), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?=
-    GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            [
-                'attribute' => 'name',
-                'label' => Yii::t('rbac-admin', 'Name'),
+<div class="role-index card card-outline card-secondary">
+
+    <div class="card-header card-title-group">
+
+        <div class="card-title"><h4><?= Html::encode($this->title); ?> </h4></div>
+        <div class="card-tools">
+            <?= Html::a('<em class="icon fas fa-plus-circle"></em><span>'
+                . Yii::t('rbac-admin', 'Create ' . $labels['Item']) . '</span>',
+                [ 'create' ],
+                [ 'class' => 'btn btn-md btn-primary' ]
+            ) ?>
+        </div>
+    </div>
+
+    <div class="card-body pt-3 pl-0 pr-0">
+        <?=
+        GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                [ 'class' => 'yii\grid\SerialColumn' ],
+                [
+                    'attribute' => 'name',
+                    'label' => Yii::t('rbac-admin', 'Name'),
+                ],
+                [
+                    'attribute' => 'ruleName',
+                    'label' => Yii::t('rbac-admin', 'Rule Name'),
+                    'filter' => $rules
+                ],
+                [
+                    'attribute' => 'description',
+                    'label' => Yii::t('rbac-admin', 'Description'),
+                ],
+                [ 'class' => 'yii\grid\ActionColumn', ],
             ],
-            [
-                'attribute' => 'ruleName',
-                'label' => Yii::t('rbac-admin', 'Rule Name'),
-                'filter' => $rules
-            ],
-            [
-                'attribute' => 'description',
-                'label' => Yii::t('rbac-admin', 'Description'),
-            ],
-            ['class' => 'yii\grid\ActionColumn',],
-        ],
-    ])
-    ?>
+        ])
+        ?>
+    </div>
 
 </div>

@@ -1,7 +1,8 @@
 <?php
 
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+
 use mdm\admin\components\RouteRule;
 use mdm\admin\AutocompleteAsset;
 use yii\helpers\Json;
@@ -27,8 +28,18 @@ AutocompleteAsset::register($this);
 $this->registerJs($js);
 ?>
 
-<div class="auth-item-form">
-    <?php $form = ActiveForm::begin(['id' => 'item-form']); ?>
+<div class="auth-item-form card">
+    <?php $form = ActiveForm::begin([
+        'layout' => 'horizontal',
+        'id' => 'item-form',
+        'fieldConfig' => [
+            'horizontalCssClasses' => [
+                'label' => 'col-sm-3 text-right',
+                'offset' => 'offset-sm-3',
+                'wrapper' => 'col-sm-9',
+            ],
+        ]
+    ]); ?>
     <div class="row">
         <div class="col-sm-6">
             <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
@@ -41,12 +52,14 @@ $this->registerJs($js);
             <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>
         </div>
     </div>
-    <div class="form-group">
+    <div class="row text-right">
+        <div class="col-md-12">
         <?php
-        echo Html::submitButton($model->isNewRecord ? Yii::t('rbac-admin', 'Create') : Yii::t('rbac-admin', 'Update'), [
-            'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+        echo Html::submitButton('<em class="icon fas fa-save"></em><span>' . ($model->isNewRecord ? Yii::t('rbac-admin', 'Create') : Yii::t('rbac-admin', 'Update') ). '</span>', [
+            'class' => 'btn btn-outline-' . ($model->isNewRecord ? 'success' : 'primary'),
             'name' => 'submit-button'])
         ?>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>
